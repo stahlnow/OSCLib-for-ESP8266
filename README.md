@@ -17,7 +17,9 @@ git clone https://github.com/stahlnow/OSCLib-for-ESP8266
 
 ## Usage
 
-Check 'sendMessage' example.
+Check examples for send or receive.
+
+Here's how to send a message:
 
 ```
 #include <ESP8266WiFi.h>
