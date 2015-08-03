@@ -1,48 +1,49 @@
-#include <mem.h>
 #include <ESP8266WiFi.h>
-#include <WiFiUDP.h>
+#include <WiFiUdp.h>
 #include <OSCMessage.h>
-//#include <OSCBundle.h>
-long sendCount = 0;
-const char* ssid     = “____”;
-const char* password = “____”;
 
-// A UDP instance to let us send and receive packets over UDP
-WiFiUDP Udp;
-const IPAddress outIp(192, 168, 0, 13);
-const unsigned int outPort = 5000;
+char ssid[] = "*****************";          // your network SSID (name)
+char pass[] = "*******";                    // your network password
+
+WiFiUDP Udp;                                // A UDP instance to let us send and receive packets over UDP
+const IPAddress outIp(10,40,10,105);        // remote IP of your computer
+const unsigned int outPort = 9999;          // remote port to receive OSC
+const unsigned int localPort = 2390;        // local port to listen for OSC packets (not used/tested)
 
 void setup() {
-  Serial.begin(115200);
+    Serial.begin(115200);
 
-  // Connect to WiFi network
-  Serial.println();
-  Serial.println();
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-  
-  WiFi.begin(ssid, password);
-  
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("");
-  Serial.println("WiFi connected");
+    // Connect to WiFi network
+    Serial.println();
+    Serial.println();
+    Serial.print("Connecting to ");
+    Serial.println(ssid);
+    WiFi.begin(ssid, pass);
+
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println("");
+
+    Serial.println("WiFi connected");
+    Serial.println("IP address: ");
+    Serial.println(WiFi.localIP());
+
+    Serial.println("Starting UDP");
+    Udp.begin(localPort);
+    Serial.print("Local port: ");
+    Serial.println(Udp.localPort());
 
 }
 
 void loop() {
-    sendCount ++;
-  if (sendCount > 100000)
-  {
-  OSCMessage msg("/test/");
-  msg.add("salut c'est BEV");
-  Udp.beginPacket(outIp, outPort);
-  msg.send(Udp);
-  Udp.endPacket();
-  msg.empty();
-  sendCount = 0;
-  }
+    OSCMessage msg("/test");
+    msg.add("hello, osc.");
+    Udp.beginPacket(outIp, outPort);
+    msg.send(Udp);
+    Udp.endPacket();
+    msg.empty();
+    delay(500);
 }
 
