@@ -1,3 +1,13 @@
+/*---------------------------------------------------------------------------------------------
+
+  Open Sound Control (OSC) library for the ESP8266
+
+  Example for sending messages from the ESP8266 to a remote computer
+  The example is sending "hello, osc." to the address "/test".
+
+  This example code is in the public domain.
+
+--------------------------------------------------------------------------------------------- */
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 #include <OSCMessage.h>
@@ -8,7 +18,7 @@ char pass[] = "*******";                    // your network password
 WiFiUDP Udp;                                // A UDP instance to let us send and receive packets over UDP
 const IPAddress outIp(10,40,10,105);        // remote IP of your computer
 const unsigned int outPort = 9999;          // remote port to receive OSC
-const unsigned int localPort = 2390;        // local port to listen for OSC packets (not used/tested)
+const unsigned int localPort = 8888;        // local port to listen for OSC packets (actually not used for sending)
 
 void setup() {
     Serial.begin(115200);
