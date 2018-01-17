@@ -258,7 +258,7 @@ bool OSCMessage::isBoolean(int position){
 int OSCMessage::match(const  char * pattern, int addr_offset){
 	int pattern_offset;
 	int address_offset;
-	int ret = osc_match(address + addr_offset, pattern, &pattern_offset, &address_offset);
+	int ret = osc_match(pattern, address + addr_offset, &pattern_offset, &address_offset);
 	char * next = (char *) (address + addr_offset + pattern_offset);
 	if (ret==3){
 		return pattern_offset;
@@ -272,7 +272,7 @@ int OSCMessage::match(const  char * pattern, int addr_offset){
 bool OSCMessage::fullMatch( const char * pattern, int addr_offset){
 	int pattern_offset;
 	int address_offset;
-	int ret = osc_match(address + addr_offset, pattern, &address_offset, &pattern_offset);
+	int ret = osc_match(pattern, address + addr_offset, &pattern_offset, &address_offset);
 	return (ret==3);
 }
 
